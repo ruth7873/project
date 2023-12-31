@@ -7,6 +7,7 @@ export default (props)=>{
     return <>
     <Card>
     <p>{props.props.Name}</p>
+    <p>Category: {props.props.CategoryId}</p>
     <p>Description: {props.props.Description}</p>
     <p>Duration: {props.props.Duration}</p>
     <p>Difficulty: {props.props.Difficulty}</p>
