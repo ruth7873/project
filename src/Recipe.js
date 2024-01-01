@@ -11,9 +11,10 @@ export default (props)=>{
     <p>Duration: {props.props.Duration}</p>
     <p>Difficulty: {props.props.Difficulty}</p>
     Ingrident: {props.props.Ingrident.map((x,i)=><div key={i}>{x.Name} {x.Count} {x.Type}</div>)}
-    Instructions: {props.props.Instructions.map((x,i)=><div key={i}>{x}</div>)}
+    Instructions: {props.props.Instructions.map((x,i)=><div key={i}>{x.Inst}</div>)}
   
     <img src={props.props.Img}></img>
+    
     </Card>
     </>
 }

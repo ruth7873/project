@@ -4,6 +4,8 @@ import axios from 'axios'
 import Recipe from '../Recipe';
 import { useSelector } from "react-redux/es/hooks/useSelector"
 import AddRecipe from './AddRecipe'
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 export default (byUser) => {
     const [Categories, setCategories] = useState([]);
@@ -14,6 +16,9 @@ export default (byUser) => {
     const [IfbyUser, setIfByUser] = useState(byUser ? true : false);
     const [myRecipes, setMyRecipes] = useState([]);
     const user = useSelector(state => state.user.user)
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    //const RecipesFromRedux = useSelector(state => state.recipe.recipes);
 
     useEffect(() => {
         console.log(user);
@@ -64,7 +69,10 @@ export default (byUser) => {
 
         <img src={Image} style={{ width: 500 }}></img>
         <hr />
-      <AddRecipe/>
+
+        <button onClick={() => ( navigate('/recipe/add'))}>AddRecipe</button>
+        <hr />
+
 
         <select onChange={handleCategoryChange} value={selectedCategory || ''}>
             {Categories.map((x) =>
@@ -89,10 +97,14 @@ export default (byUser) => {
         <p>Selected Difficulty: {selectedDifficulty}</p>
 
         <button onClick={sort}>sort by alphbetic order</button>
-        
+
         {recipes.map(x => (!selectedCategory || x.CategoryId == selectedCategory) && (!selectedDuration || checkDuration(x.Duration)) && (!selectedDifficulty || selectedDifficulty == x.Difficulty) ?
             <div key={x.Id}>
                 <Recipe props={x} />
+        <button onClick={() =>{ (dispatch({type:"DELETE_RECIPE",data:x}));console.log(recipes);}}>delete</button>
+        <button onClick={() => ( navigate('/recipe/edit'))}>Edit</button>
+
+
             </div>
             : null)}
 
