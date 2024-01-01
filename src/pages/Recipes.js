@@ -3,6 +3,8 @@ import Image from '../images/img.jpg'
 import axios from 'axios'
 import Recipe from '../Recipe';
 import { useSelector } from "react-redux/es/hooks/useSelector"
+import AddRecipe from './AddRecipe'
+
 export default (byUser) => {
     const [Categories, setCategories] = useState([]);
     const [recipes, setRecipes] = useState([]);
@@ -15,16 +17,15 @@ export default (byUser) => {
 
     useEffect(() => {
         console.log(user);
-        console.log(byUser);
-        axios.get('http://localhost:8080/api/recipe').then((r) => {
-            setRecipes(r.data);
-            if (byUser)
-                console.log(recipes.filter(x => x.UserId === user.Id))
-            {
-                setMyRecipes(recipes.filter(x => x.UserId === user.Id));
-                console.log("sdsfghjklhgfdssdfghjkhg")
-            }
-        })
+        console.log("byUser", byUser);
+        if (byUser) {
+            axios.get('http://localhost:8080/api/recipe').then((r) => { setRecipes(r.data); })
+            console.log(recipes)
+        }
+        else {
+            axios.get('http://localhost:8080/api/recipe').then((r) => { setRecipes(r.data.filter((x) => x.UserId == user?.Id)) })
+            console.log(recipes)
+        }
         axios.get('http://localhost:8080/api/category').then((c) => { setCategories(c.data) })
     }, [])
     const handleCategoryChange = (event) => {
@@ -46,9 +47,8 @@ export default (byUser) => {
             case "30":
                 return (recipe_duration >= 30 && recipe_duration < 45);
             case "15":
-                return (recipe_duration >= 15 && recipe_duration < 30);
+                return (recipe_duration >= 0 && recipe_duration < 30);
             default: return false;
-
         }
     }
     const handleDifficultyChange = (event) => {
@@ -60,10 +60,11 @@ export default (byUser) => {
         setRecipes(recipes.sort((a, b) => a.Name.localeCompare(b.Name)));
         console.log(recipes)
     }
-    return <>
+    return (<>
 
         <img src={Image} style={{ width: 500 }}></img>
         <hr />
+      <AddRecipe/>
 
         <select onChange={handleCategoryChange} value={selectedCategory || ''}>
             {Categories.map((x) =>
@@ -86,23 +87,19 @@ export default (byUser) => {
             <option value={4} >קשה מאד</option>
         </select>
         <p>Selected Difficulty: {selectedDifficulty}</p>
-        <button onClick={sort}>sort</button>
+
+        <button onClick={sort}>sort by alphbetic order</button>
+        
         {recipes.map(x => (!selectedCategory || x.CategoryId == selectedCategory) && (!selectedDuration || checkDuration(x.Duration)) && (!selectedDifficulty || selectedDifficulty == x.Difficulty) ?
-            <div key={x.id}>
+            <div key={x.Id}>
                 <Recipe props={x} />
             </div>
             : null)}
 
         {myRecipes.map(x => (!selectedCategory || x.CategoryId == selectedCategory) ?
-            <div key={x.id}>
+            <div key={x.Id}>
                 <Recipe props={x} />
             </div>
             : null)}
-    </>
+    </>);
 }
-
-
-
-
-
-

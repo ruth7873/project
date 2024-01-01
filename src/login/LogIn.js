@@ -34,15 +34,15 @@ export default function App() {
             .then((d) => {
                 console.log(d)
                 dispatch({ type: Actions.SET_USER, user: d.data })
-                alert("welcome!!")
+                navigate("/homepage")
+                alert(`welcome!!! ${ data.userName}`)
             }).catch((error) => {
                 alert(error.response.data)
                 navigate("/signUp")
             })
     }
-
     return (
-       
+
         <form onSubmit={handleSubmit(onSubmit)}>
             <label>User Name: </label>
             <input placeholder={"user name"} type="text" {...register("userName")} />
@@ -57,6 +57,6 @@ export default function App() {
 
             <input type="submit" />
         </form>
+        
     )
 }
-

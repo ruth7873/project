@@ -14,7 +14,9 @@ const reducer = (state = initalseState, action) => {
             return { ...state, recipes: action.data }
         case "ADD_RECIPE": {
             const recipes = [...state.recipes];
+            console.log(recipes)
             recipes.push(action.recipe);
+            console.log(action.recipes)
             return { ...state, recipes }
         }
         case "EDIT_RECIPE": {
