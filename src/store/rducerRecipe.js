@@ -1,4 +1,5 @@
 import * as Actions from './action'
+import axios from 'axios';
 
 const initalseState = {
     recipes: []
@@ -11,6 +12,7 @@ const reducer = (state = initalseState, action) => {
             return { ...state, recipes }
         }
         case "SET_RECIPE":
+            
             return { ...state, recipes: action.data }
         case "ADD_RECIPE": {
             const recipes = [...state.recipes];
@@ -21,17 +23,21 @@ const reducer = (state = initalseState, action) => {
         }
         case "EDIT_RECIPE": {
             const recipes = [...state.recipes];
-            console.log("edit: ",action)
+            console.log("edit: ", action)
             const findIndex = recipes.findIndex(x => x.Id === action.data.Id);
             recipes[findIndex] = action.data;
             return { ...state, recipes }
         }
         case "DELETE_RECIPE": {
-            console.log("delete: ",action)
-            
-            const recipes = state.recipes.filter(x => x.Id !== action.data);
-            state.recipes=recipes;
-            return { ...state, recipes }
+            console.log("delete: ", action.Id)
+            // const recipes = [...state.recipes];
+            axios.post(`http://localhost:8080/api/recipe/delete/${action.Id}`)
+                .then(() => {
+                    console.log("deleted!!!")
+                    // recipes=recipes.filter(x=>x.Id!=action.data)
+                })
+                .catch((error) => { console.error(error) })
+            return { ...state }
         }
         default: return { ...state }
     }

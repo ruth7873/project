@@ -22,8 +22,8 @@ function App() {
         <Route path="/homePage" element={<HomePage />}></Route>
         <Route path="/recipe" element={<Recipes byUser={false}/>}></Route>
         <Route path="/recipe/:user" element={<Recipes byUser={true}/>}></Route>
-        <Route path="/recipe/add" element={<AddRecipe prop={false} />}></Route>
-        <Route path="/recipe/edit" element={<AddRecipe prop={true} />}></Route>
+        <Route path="/recipe/add" element={<AddRecipe/>}></Route>
+        <Route path="/recipe/edit" element={<AddRecipe/>}></Route>
 
         <Route path="/shopping" element={<Shopping />}></Route>        
       </Routes>
@@ -35,7 +35,7 @@ function App() {
         <li>my recipe</li>
         <li>ריענון - למה כשמרעננים יוצא מהמשתמש</li>
         <li>למה כשמרעננים הטופס לא מתרוקן</li>
-        <li>edit button - how to fill the form</li>
+        <li>edit button - how to fill the Instruction</li>
         <li>delete- how to update or change the recipes</li>
         <li>האם להעביר את הקריאות שרת לרידקס ואיך</li>
         <li>הוספת קטגוריה</li>

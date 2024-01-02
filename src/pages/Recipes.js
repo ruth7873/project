@@ -66,19 +66,18 @@ export default (byUser) => {
         setRecipes(recipes.sort((a, b) => a.Name.localeCompare(b.Name)));
         console.log(recipes)
     }
-    const deleteRecipe=(id)=>{
+    const deleteRecipe = (id) => {
         console.log("fgdhjkljhghjkhgfgdfhfjnfdgjfffffffffffffffffffffffffffffffffff")
-        axios.post(`http://localhost:8080/api/recipe/delete/${id}`)
-        .then(()=>{dispatch({type:"DELETE_RECIPE",data:id})})
-        .catch((error)=>{console.error(error)})
-       
+    }
+    const AddCategory=()=>{
+        
     }
     return (<>
 
         <img src={Image} style={{ width: 500 }}></img>
         <hr />
 
-        <button onClick={() => ( navigate('/recipe/add'),{state:null})}>AddRecipe</button>
+        <button onClick={() => (navigate('/recipe/add'), { state: null })}>AddRecipe</button>
         <hr />
 
 
@@ -87,6 +86,7 @@ export default (byUser) => {
                 <option key={x.Id} value={x.Id} >{x.Name}</option>)}
         </select>
         <p>Selected Category: {selectedCategory}</p>
+        <button onClick={()=>{<input placeholder='add category' ></input>}}>add category</button>
 
         <select onChange={handleDurationChange} value={selectedDuration || ''}>
             <option value={15} >15 minutes</option>
@@ -109,13 +109,10 @@ export default (byUser) => {
         {recipes.map(x => (!selectedCategory || x.CategoryId == selectedCategory) && (!selectedDuration || checkDuration(x.Duration)) && (!selectedDifficulty || selectedDifficulty == x.Difficulty) ?
             <div key={x.Id}>
                 <Recipe props={x} />
-        <button onClick={()=>deleteRecipe(x.Id)}>delete</button>
-        <button onClick={() => ( 
-            navigate('/recipe/edit',{state: x })
-            // <AddRecipe/>
-            )}>Edit</button>
-
-
+                <button onClick={() => dispatch({ type: "DELETE_RECIPE", data: x.Id })}>delete</button>
+                <button onClick={() => (
+                    navigate('/recipe/edit', { state: x })
+                )}>Edit</button>
             </div>
             : null)}
 

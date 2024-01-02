@@ -38,7 +38,8 @@ export default function App() {
                 alert(`welcome!!! ${ data.userName}`)
             }).catch((error) => {
                 alert(error.response.data)
-                navigate("/signUp")
+                console.log(data);
+                navigate("/signUp",{state:data})
             })
     }
     return (

@@ -1,31 +1,34 @@
 import { useForm } from "react-hook-form"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate,useLocation } from "react-router-dom"
 import { yupResolver } from "@hookform/resolvers/yup"
 import axios from "axios"
 import * as yup from "yup"
 import 'semantic-ui-css/semantic.min.css'
 import { FormField, Form } from 'semantic-ui-react'
 
+
 let schema = yup
-    .object({
-        Username: yup.string().required(),
-        Name: yup.string().required(),
-        Adress: yup.string().required(),
-        Email: yup.string().email().required(),
-        Phone: yup.string().required(),
-        Tz:yup.string().required(),
-        Password: yup.string().required(),
-    })
-    .required()
+.object({
+    Username: yup.string().required(),
+    Name: yup.string().required(),
+    Adress: yup.string().required(),
+    Email: yup.string().email().required(),
+    Phone: yup.string().required(),
+    Tz:yup.string().required(),
+    Password: yup.string().required(),
+})
+.required()
 
 
 export default function App() {
+    const { state } = useLocation()
+    const selected=state;
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm({
-        resolver: yupResolver(schema),
+        resolver: yupResolver(schema),defaultValues:selected
     })
     const navigate = useNavigate();
     const onSubmit =(data,e)=>{
@@ -39,7 +42,7 @@ export default function App() {
                 // navigate("/signUp")
                 schema=null
                 // console.log("e",e,data)
-                e.preventDefault()
+                // e.preventDefault()
                 register("","","","","")
             })
     }}
