@@ -6,7 +6,7 @@ import * as yup from "yup"
 import 'semantic-ui-css/semantic.min.css'
 import { FormField, Form } from 'semantic-ui-react'
 
-const schema = yup
+let schema = yup
     .object({
         Username: yup.string().required(),
         Name: yup.string().required(),
@@ -28,11 +28,19 @@ export default function App() {
         resolver: yupResolver(schema),
     })
     const navigate = useNavigate();
-    const onSubmit =(data)=>{
+    const onSubmit =(data,e)=>{
         console.log("sdfghjkhgfd")
-              {axios.post('http://localhost:8080/api/user/sighin',{Username:data.Username,Password:data.Password,Name:data.Name,Phone:data.Phone,Email:data.Email,Tz:data.Tz}).then((d)=>{console.log(d) }).catch((error) => {
+              {axios.post('http://localhost:8080/api/user/sighin',{
+                  Username:data.Username,
+                  Password:data.Password,
+                  Name:data.Name,Phone:data.Phone,Email:data.Email,
+                  Tz:data.Tz}).then((d)=>{console.log(d) }).catch((error) => {
                 alert(error.response.data)
-                navigate("../signUp")
+                // navigate("/signUp")
+                schema=null
+                // console.log("e",e,data)
+                e.preventDefault()
+                register("","","","","")
             })
     }}
 

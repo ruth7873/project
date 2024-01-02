@@ -12,6 +12,7 @@ const reducer = (state = initalseState, action) => {
     }
 }
 
+
 // reducer({ type: "ADD", payload: "dvora", data: "lll" })
 
 export default reducer;
