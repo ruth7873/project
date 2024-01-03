@@ -23,15 +23,15 @@ const reducer = (state = initalseState, action) => {
         }
         case "EDIT_RECIPE": {
             const recipes = [...state.recipes];
-            console.log("edit: ", action)
+            console.log("edit: ", action.data)
             const findIndex = recipes.findIndex(x => x.Id === action.data.Id);
             recipes[findIndex] = action.data;
             return { ...state, recipes }
         }
         case "DELETE_RECIPE": {
-            console.log("delete: ", action.Id)
+            console.log("delete: ", action.data.Id)
             // const recipes = [...state.recipes];
-            axios.post(`http://localhost:8080/api/recipe/delete/${action.Id}`)
+            axios.post(`http://localhost:8080/api/recipe/delete/${action.data.Id}`)
                 .then(() => {
                     console.log("deleted!!!")
                     // recipes=recipes.filter(x=>x.Id!=action.data)

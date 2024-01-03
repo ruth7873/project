@@ -18,6 +18,7 @@ export default (byUser) => {
     const user = useSelector(state => state.user.user)
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [ifAddCategory, SetIfAddCategory] = useState(false);
     //const RecipesFromRedux = useSelector(state => state.recipe.recipes);
 
     useEffect(() => {
@@ -69,8 +70,11 @@ export default (byUser) => {
     const deleteRecipe = (id) => {
         console.log("fgdhjkljhghjkhgfgdfhfjnfdgjfffffffffffffffffffffffffffffffffff")
     }
-    const AddCategory=()=>{
-        
+    const AddCategory = (category) => {
+        axios.post(`http://localhost:8080/api/category`,{Id:Categories.length+1,Name:category}).then((c) => { console.log(c.data)
+        axios.get('http://localhost:8080/api/category').then((c) => { setCategories(c.data) })
+    })
+        .catch((error)=>console.error(error))
     }
     return (<>
 
@@ -86,8 +90,8 @@ export default (byUser) => {
                 <option key={x.Id} value={x.Id} >{x.Name}</option>)}
         </select>
         <p>Selected Category: {selectedCategory}</p>
-        <button onClick={()=>{<input placeholder='add category' ></input>}}>add category</button>
-
+        <button onClick={() => SetIfAddCategory(true)}>add category</button>
+        {ifAddCategory ? <input type="text" placeholder='addCategoey' onBlur={(e)=>AddCategory(e.target.value)}></input> : null}
         <select onChange={handleDurationChange} value={selectedDuration || ''}>
             <option value={15} >15 minutes</option>
             <option value={30} >30 minutes</option>

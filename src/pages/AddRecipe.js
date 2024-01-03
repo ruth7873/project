@@ -162,11 +162,11 @@ export default (prop) => {
             Duration: yup.number().required(),
             Difficulty: yup.number().required(),
             Description: yup.string().required(),
-            Instructions: yup.array().of(yup.object({ Inst: yup.string().required(), })),
+            Instructions: yup.array().of(yup.object({ Inst: yup.string().nullable(), })),
             Ingrident: yup.array().of(yup.object({
-                Name: yup.string().required(),
-                Count: yup.number().required(),
-                Type: yup.string().required(),
+                Name: yup.string().nullable(),
+                Count: yup.string().nullable(),
+                Type: yup.string().nullable(),
             }))
         })
         .required()
@@ -193,8 +193,8 @@ export default (prop) => {
         formState: { errors }
     } = useForm({
         resolver: yupResolver(schema),
-       // defaultValues: { Name:state?.Id, UserId:UserId, CategoryId:state?.CategoryId, Img:state?.Img, Duration:state?.Duration, Difficulty:state?.Difficulty,Description:state?.Description }
-       defaultValues:selectRecipe
+       defaultValues: { Name:state?.Name, UserId:UserId, CategoryId:state?.CategoryId, Img:state?.Img, Duration:state?.Duration, Difficulty:state?.Difficulty,Description:state?.Description,Ingrident:state?.Ingrident,Instructions:state?.Instructions }
+    //    defaultValues:selectRecipe
     })
     const { fields: Instructions, append: appendInstructions } = useFieldArray({
         control, name: "Instructions"
@@ -225,6 +225,7 @@ export default (prop) => {
                 axios.post('http://localhost:8080/api/recipe/edit', {...data,UserId:selectRecipe?.UserId,Id:selectRecipe?.Id}).then((response) => {
                     console.log("edit", response);
                     dispatch({ type: "EDIT_RECIPE", data: response.data })
+                    console.log("after dispatch")
                     navigate('/recipe')
                         
                 }).catch((error) => { console.error(error) })
@@ -265,7 +266,7 @@ export default (prop) => {
                     {Ingrident?.map((item, index) => (
                         <div key={index}>
                             <input type="text" placeholder="product name:"  {...register(`Ingrident.${index}.Name`)} />
-                            <input type="number" placeholder="count:" {...register(`Ingrident.${index}.Count`)} />
+                            <input  placeholder="count:" {...register(`Ingrident.${index}.Count`)} />
                             <input type="text" placeholder="type:" {...register(`Ingrident.${index}.Type`)} />
 
                         </div>
