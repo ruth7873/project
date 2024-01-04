@@ -35,7 +35,7 @@ function App() {
         <li>my recipe</li>
         <li>ריענון - למה כשמרעננים יוצא מהמשתמש</li>
         <li>למה כשמרעננים הטופס לא מתרוקן</li>
-        <li>delete- how to update or change the recipes איך למחוק מסוים ולא את האחרון</li>
+        <li>delete- how to update or change the recipes</li>
         <li>האם להעביר את הקריאות שרת לרידקס ואיך</li>
         <li>קניות</li>
 

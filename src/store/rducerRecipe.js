@@ -29,9 +29,9 @@ const reducer = (state = initalseState, action) => {
             return { ...state, recipes }
         }
         case "DELETE_RECIPE": {
-            console.log("delete: ", action.data.Id)
+            console.log("delete: ", action.data)
             // const recipes = [...state.recipes];
-            axios.post(`http://localhost:8080/api/recipe/delete/${action.data.Id}`)
+            axios.post(`http://localhost:8080/api/recipe/delete/:${action.data}`)
                 .then(() => {
                     console.log("deleted!!!")
                     // recipes=recipes.filter(x=>x.Id!=action.data)
