@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form"
-import { Link, useNavigate,useLocation } from "react-router-dom"
+import { Link, useNavigate, useLocation } from "react-router-dom"
 import { yupResolver } from "@hookform/resolvers/yup"
 import axios from "axios"
 import * as yup from "yup"
@@ -8,48 +8,48 @@ import { FormField, Form } from 'semantic-ui-react'
 
 
 let schema = yup
-.object({
-    Username: yup.string().required(),
-    Name: yup.string().required(),
-    Adress: yup.string().required(),
-    Email: yup.string().email().required(),
-    Phone: yup.string().required(),
-    Tz:yup.string().required(),
-    Password: yup.string().required(),
-})
-.required()
+    .object({
+        Username: yup.string().required(),
+        Name: yup.string().required(),
+        Adress: yup.string().required(),
+        Email: yup.string().email().required(),
+        Phone: yup.string().required(),
+        Tz: yup.string().required(),
+        Password: yup.string().required(),
+    })
+    .required()
 
 
 export default function App() {
     const { state } = useLocation()
-    const selected=state;
+    // const selected=state;
     const {
         register,
         handleSubmit,
+        setValue,
+        reset,
         formState: { errors },
     } = useForm({
-        resolver: yupResolver(schema),defaultValues:selected
+        resolver: yupResolver(schema),
+        defaultValues: { Username: state?.userName }
     })
     const navigate = useNavigate();
-    const onSubmit =(data,e)=>{
+    const onSubmit = (data, e) => {
         console.log("sdfghjkhgfd")
-              {axios.post('http://localhost:8080/api/user/sighin',{
-                  Username:data.Username,
-                  Password:data.Password,
-                  Name:data.Name,Phone:data.Phone,Email:data.Email,
-                  Tz:data.Tz}).then((d)=>{console.log(d) }).catch((error) => {
+        {
+            axios.post('http://localhost:8080/api/user/sighin', data).then((d) => {
+                console.log(d)
+                alert("you sign up successfully")
+                navigate("/login", { state: data })
+            }).catch((error) => {
                 alert(error.response.data)
-                // navigate("/signUp")
-                schema=null
-                // console.log("e",e,data)
-                // e.preventDefault()
-                register("","","","","")
+                reset()
+                // setValue('Username', "")
             })
-    }}
-
-
+        }
+    }
     return (
-        
+
         <form onSubmit={handleSubmit(onSubmit)}>
 
             <label>User Name: </label>
@@ -78,8 +78,8 @@ export default function App() {
 
             <label>Password: </label>
             <input
-             placeholder="Password"
-            type="password"{...register("Password")} />
+                placeholder="Password"
+                type="password"{...register("Password")} />
             <p>{errors.Password?.message}</p>
 
 

@@ -1,5 +1,5 @@
 
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import SignUp from "./SignUp"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -22,20 +22,22 @@ export default function App() {
     const dispatch = useDispatch();
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
+    const { state } = useLocation()
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm({
-        resolver: yupResolver(schema),
+        resolver: yupResolver(schema),defaultValues:{userName:state?.Username,password:state?.Password}
     })
     const onSubmit = (data) => {
         axios.post('http://localhost:8080/api/user/login', { Username: data.userName, Password: data.password })
             .then((d) => {
                 console.log(d)
                 dispatch({ type: Actions.SET_USER, user: d.data })
-                navigate("/homepage")
                 alert(`welcome!!! ${ data.userName}`)
+                localStorage.setItem("user" ,JSON.stringify(data))
+                navigate("/homepage")
             }).catch((error) => {
                 alert(error.response.data)
                 console.log(data);

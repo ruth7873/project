@@ -11,7 +11,7 @@ export default function ({ prop }) {
         alert("good buy!!!!")
     }
     return <>
-        {user == null ? 
+        {!localStorage.getItem("user")? 
             <div>
                 <Link to={'/login'}>Log in | </Link>
                 <Link to={'/signUp'}>Sign Up</Link></div> :

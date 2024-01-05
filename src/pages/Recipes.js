@@ -7,7 +7,7 @@ import AddRecipe from './AddRecipe'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-export default (byUser) => {
+export default ({byUser}) => {
     const [Categories, setCategories] = useState([]);
     const [recipes, setRecipes] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -16,6 +16,7 @@ export default (byUser) => {
     const [IfbyUser, setIfByUser] = useState(byUser ? true : false);
     const [myRecipes, setMyRecipes] = useState([]);
     const user = useSelector(state => state.user.user)
+    // let user=localStorage.getItem("user")
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [ifAddCategory, SetIfAddCategory] = useState(false);
@@ -24,6 +25,7 @@ export default (byUser) => {
     useEffect(() => {
         console.log(user);
         console.log("byUser", byUser);
+        console.log("tovi",localStorage.getItem("user"));
         if (!byUser) {
             axios.get('http://localhost:8080/api/recipe').then((r) => { setRecipes(r.data); })
             console.log(recipes)
@@ -35,6 +37,7 @@ export default (byUser) => {
         }
         axios.get('http://localhost:8080/api/category').then((c) => { setCategories(c.data) })
     }, [])
+    // useEffect(() => {user=localStorage.getItem("user")},[user])
     const handleCategoryChange = (event) => {
         // הפעולה הזו תתבצע כאשר משתמש בוחר אפשרות בתיבת הבחירה
         const selectedCategoryId = event.target.value;
