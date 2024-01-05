@@ -15,24 +15,28 @@ const reducerBuy = (state = initalseState, action) => {
         }
         case "ADD_BUY": {
             console.log("reducer", action.data);
-            axios.post(`http://localhost:8080/api/bay`, { Name: action.data.Name, UserId:action.data.user, Count: 1 })
+            axios.post(`http://localhost:8080/api/bay`, { Name: action.data.Name, UserId: action.data.user, Count: 1 })
                 .then((res) => {
                     const buies = [...state.buies];
                     console.log(buies)
                     buies.push(action.data);
                     console.log(action.data)
+                    state=buies;
                     alert("נוסף בהצלחה!!!")
-                    return { ...state, buies }
                 }).catch((error) => console.error(error))
+            return { ...state }
+
         }
         case "EDIT_BUY": {
-            axios.post(`http://localhost:8080/api/bay/edit`,{Name: action.data.Name, UserId:action.data.user, Count: action.data.Count}).then((res) => {
+            console.log(action.data.UserId);
+            axios.post(`http://localhost:8080/api/bay/edit`, { Name: action.data.Name, UserId: action.data.UserId, Count: action.data.Count }).then((res) => {
                 const buies = [...state.buies];
                 console.log("edit: ", res)
                 const findIndex = buies.findIndex(x => x.Id === res.Id);
                 buies[findIndex] = res;
                 return { ...state, buies }
             }).catch((error) => console.error(error))
+            return null;
         }
         case "DELETE_BUY": {
             console.log("delete: ", action.data)
@@ -43,6 +47,7 @@ const reducerBuy = (state = initalseState, action) => {
                     return { ...state }
                 })
                 .catch((error) => { console.error(error) })
+            return null;
         }
         default: return { ...state }
     }
