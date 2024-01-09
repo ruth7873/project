@@ -35,7 +35,7 @@ export default function App() {
             .then((d) => {
                 console.log(d)
                 dispatch({ type: Actions.SET_USER, user: d.data })
-                alert(`welcome!!! ${ data.userName}`)
+                alert(`welcome ${ data.userName}!!!`)
                 localStorage.setItem("user" ,JSON.stringify(data))
                 navigate("/homepage")
             }).catch((error) => {
@@ -55,7 +55,7 @@ export default function App() {
             <input type="password"{...register("password")} />
             <p>{errors.password?.message}</p>
 
-            <Link to={'/signUp'}>Don't have an account yet? Sign in now</Link>
+            <Link to={'/signUp'}>Don't have an account yet? Sign up now</Link>
             <br />
 
             <input type="submit" />

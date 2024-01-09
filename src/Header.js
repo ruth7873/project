@@ -7,8 +7,9 @@ export default function ({ prop }) {
     const user = useSelector(state => state.user.user);
     const dispatch = useDispatch();
     const onLogOut=()=>{
+        alert(`good buy ${user.Name}!!!`)
         dispatch({ type: Actions.SET_USER, user:null });
-        alert("good buy!!!!")
+     localStorage.setItem("user",JSON.stringify(null))
     }
     return <>
         {!localStorage.getItem("user")? 

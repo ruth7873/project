@@ -15,17 +15,17 @@ export default () => {
             .catch((error) => console.error(error));
     }, [])
     console.log("afhjhh", buies);
-    function editAdd(x) {
-        let newP = { ...x };
-        newP.Count = 1;
-        console.log("sddffppp",newP);
-        axios.post(`http://localhost:8080/api/bay`, { newP  }).then((res) => {
-            setBuies(res)
-            console.log("edit: ", res)
-            const findIndex = buies.findIndex(x => x.Id === res.Id);
-            buies[findIndex] = res;
-        }).catch((error) => console.error(error))
+    function deleteProd(x) {
+        console.log("delete buy", x);
+        dispatch({ type: "DELETE_BUY", data: { Name: x.Name, user: user.Id, Id: x.Id } })
     }
+    function editAdd(x, count) {
+        console.log("+/- buy", x);
+        if (x.Count + count == 0)
+            deleteProd(x);
+        else
+            dispatch({ type: "EDIT_BUY", data: { Name: x.Name, user: user.Id, Count: count } })
+      }
 
     return <>
         shopping
@@ -34,12 +34,9 @@ export default () => {
             <div key={id}>
                 <div>{x.Name}</div>
                 <div>{x.Count}</div>
-                <button onClick={() => editAdd(x)}>+</button>
-                <button>-</button>
-                <button>I had</button>
-
-
-
+                <button onClick={() => editAdd(x, 1)}>+</button>
+                <button onClick={() => editAdd(x, -1)}>-</button>
+                <button onClick={() => deleteProd(x)}>I had</button>
             </div>
         ))}
     </>
